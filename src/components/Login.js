@@ -88,6 +88,12 @@ const Login = () => {
           });
           setError('');
           console.log("Login Success");
+          setLogin({
+            ...login,
+            username: null,
+            password: null,
+            remember: null,
+          })
           // localStorage.setItem("token", token);
         }
       });
@@ -156,6 +162,7 @@ const Login = () => {
             autoFocus
             type="text"
             onChange={handleChange}
+            value={login.username || ''}
           />
           <TextField
             margin="normal"
@@ -167,6 +174,7 @@ const Login = () => {
             id="password"
             onChange={handleChange}
             autoComplete="current-password"
+            value={login.password || ''}
           />
 
           <FormControlLabel
