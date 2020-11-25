@@ -93,8 +93,9 @@ const Login = () => {
             username: null,
             password: null,
             remember: null,
-          })
-          // localStorage.setItem("token", token);
+          });
+          localStorage.removeItem('token');
+          localStorage.setItem("token", res.data.token);
         }
       });
     } else {
