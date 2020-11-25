@@ -14,7 +14,7 @@ export const AuthProvider = (props) => {
         isLoggedIn: false,
         loginUrl: 'http://localhost:8000/api/login',
         registerUrl: 'http://localhost:8000/api/register',
-        profileUrl: 'http:/localhost:8000/api/user/detail',
+        profileUrl: 'http://localhost:8000/api/user/detail',
     });
 
     return (
