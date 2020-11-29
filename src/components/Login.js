@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
@@ -47,6 +47,8 @@ const Login = () => {
   const [auth, setAuth] = useContext(AuthContext);
   const [error, setError] = useState("");
 
+  useEffect(() => { document.title = "Liquid Enjiniring | Login" });
+
   const [login, setLogin] = useState({
     username: null,
     password: null,
@@ -64,16 +66,16 @@ const Login = () => {
         username: login.username,
         password: login.password,
       };
+
       // Fetch data to server
-      // const response = await Axios.post(auth.loginUrl, data);
       Axios.post(auth.loginUrl, data).then((res) => {
         const error = res.data.error;
         if (error) {
-          console.log(error);
+          // console.log(error);
           setError(error);
           setShow(true);
         } else {
-          console.log(res.data);
+          // console.log(res.data);
           setAuth({
             ...auth,
             hasAccount: true,
@@ -178,7 +180,7 @@ const Login = () => {
             value={login.password || ''}
           />
 
-          <FormControlLabel
+          {/* <FormControlLabel
             control={
               <Checkbox
                 value="remember"
@@ -188,7 +190,7 @@ const Login = () => {
               />
             }
             label="Remember me"
-          />
+          /> */}
           <Button
             type="submit"
             fullWidth

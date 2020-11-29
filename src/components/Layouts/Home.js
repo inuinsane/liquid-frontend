@@ -48,7 +48,7 @@ const Home = () => {
   const getUser = async () => {
     try {
       const res = await Axios({ url: auth.profileUrl, method: 'GET', headers: { Authorization: `Bearer ${token}` } });
-      console.log(res.data);
+      // console.log(res.data);
       setAuth({
         ...auth,
         hasAccount: true,
