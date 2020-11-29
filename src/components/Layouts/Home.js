@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect } from "react";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
@@ -42,68 +42,58 @@ const Copyright = () => {
 const Home = () => {
   const classes = useStyles();
   const [auth, setAuth] = useContext(AuthContext);
-  const [status, setStatus] = useState(false);
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (token) {
-      Axios({
-        url: auth.profileUrl,
-        method: "get",
-        headers: { Authorization: `Bearer ${token}` },
-      })
-        .then((res) => {
-          console.log(res);
-          setStatus(true);
-          setAuth({
-            ...auth,
-            hasAccount: true,
-            isLoggedIn: true,
-            currentUser: {
-              ...auth.currentUser,
-              id: res.data.user.id,
-              name: res.data.user.name,
-              username: res.data.user.username,
-              email: res.data.user.email,
-            },
-          });
-        })
-        .catch((err) => {
-          console.log("Session ended");
-        });
-    } else {
-      console.log("no token");
+  const token = localStorage.getItem("token");
+
+  // Get User
+  const getUser = async () => {
+    try {
+      const res = await Axios({ url: auth.profileUrl, method: 'GET', headers: { Authorization: `Bearer ${token}` } });
+      console.log(res.data);
+      setAuth({
+        ...auth,
+        hasAccount: true,
+        isLoggedIn: true,
+        currentUser: {
+          ...auth.currentUser,
+          id: res.data.id,
+          name: res.data.name,
+          username: res.data.username,
+          email: res.data.email,
+        },
+      });
     }
-  });
+    catch (err) {
+      console.log(err);
+    }
+  }
+  useEffect(() => {
+    if (token) {
+      getUser();
+    }
+    else {
+      console.log("Belum login");
+    }
+  })
 
-  return status === false ? (
-    <Grid container component="main" className={classes.root}>
-      <CssBaseline />
-      <Grid item xs={false} sm={4} md={7} className={classes.image} />
-      <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
-        {auth.hasAccount ? <Login /> : <Register />}
-        <Box mt={5}>
-          <Copyright />
-        </Box>
+  if (!auth.currentUser.id) {
+    return (
+      <Grid container component="main" className={classes.root}>
+        <CssBaseline />
+        <Grid item xs={false} sm={4} md={7} className={classes.image} />
+        <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
+          {auth.hasAccount ? <Login /> : <Register />}
+          <Box mt={5}>
+            <Copyright />
+          </Box>
+        </Grid>
       </Grid>
-    </Grid>
-  ) : (
-    <Redirect to="/dashboard" />
-  );
 
-  // status ? (
-  //   <Redirect to="/dashboard" />
-  // ) : (
-  //   <Grid container component="main" className={classes.root}>
-  //     <CssBaseline />
-  //     <Grid item xs={false} sm={4} md={7} className={classes.image} />
-  //     <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
-  //       {auth.hasAccount ? <Login /> : <Register />}
-  //       <Box mt={5}>
-  //         <Copyright />
-  //       </Box>
-  //     </Grid>
-  //   </Grid>
-  // );
+    )
+  } else {
+    return (
+      <Redirect to="/dashboard" />
+    );
+  }
 };
 
 export default Home;
