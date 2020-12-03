@@ -5,14 +5,14 @@ import {
   Route,
   Switch,
 } from "react-router-dom";
-import { AuthContext } from "../Context/AuthContext";
-import Room from "./Room";
-import Profile from "./Profile";
-import TopNav from "../TopNav";
-import Liquid from "./Liquid";
 import { CContainer } from "@coreui/react";
-import BottomFooter from "../BottomFooter";
-import Details from "../Details";
+import Details from "./Details";
+import Liquid from "../Liquid/Liquid";
+import Profile from "../User/Profile";
+import Room from "../Room/Room";
+import TopNav from "./TopNav";
+import { AuthContext } from "../Context/AuthContext";
+import BottomFooter from './BottomFooter';
 
 const Dashboard = () => {
   const [auth] = useContext(AuthContext);
@@ -41,10 +41,10 @@ const Dashboard = () => {
                   <Suspense fallback={loading}>
                     <CContainer>
                       <Switch>
-                        <Route path="/dashboard" component={Details} />
-                        <Route path="/create-room" component={Room} />
+                        <Route path="/dashboard/details" component={Details} />
+                        <Route path="/dashboard/create-room" component={Room} />
                         <Route path="/profile" component={Profile} />
-                        <Route path="/liquid" component={Liquid} />
+                        <Route path="/dashboard/liquid" component={Liquid} />
                       </Switch>
                     </CContainer>
                   </Suspense>

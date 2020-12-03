@@ -9,7 +9,7 @@ import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import { Link, Redirect } from "react-router-dom";
-import { AuthContext } from "./Context/AuthContext";
+import { AuthContext } from "../Context/AuthContext";
 import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from "@material-ui/core";
 import Axios from "axios";
 

@@ -11,6 +11,7 @@ export const AuthProvider = (props) => {
             name: null,
             email: null,
             username: null,
+            token: null,
         },
         hasAccount: true,
         isLoggedIn: false,

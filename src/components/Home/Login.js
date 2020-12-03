@@ -7,7 +7,7 @@ import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import { Link } from "react-router-dom";
-import { AuthContext } from "./Context/AuthContext";
+import { AuthContext } from "../Context/AuthContext";
 import {
   Container,
   Dialog,
@@ -84,9 +84,11 @@ const Login = () => {
               name: res.data.user.name,
               username: res.data.user.username,
               email: res.data.user.email,
+              token: res.data.token,
             },
           });
           setError('');
+          localStorage.setItem("token", res.data.token);
           console.log("Login Success");
           setLogin({
             ...login,
@@ -94,8 +96,6 @@ const Login = () => {
             password: null,
             remember: null,
           });
-          localStorage.removeItem('token');
-          localStorage.setItem("token", res.data.token);
         }
       });
     } else {

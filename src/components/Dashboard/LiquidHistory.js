@@ -9,40 +9,59 @@ import {
 } from "@coreui/react";
 import Axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
-import { AuthContext } from "./Context/AuthContext";
+import { AuthContext } from "../Context/AuthContext";
 
 const LiquidHistory = () => {
   const [auth] = useContext(AuthContext);
   const [list, setList] = useState(null);
-  const token = localStorage.getItem("token");
+
   useEffect(() => {
     if (!list) {
       Axios({
         url: auth.getHistoryUrl,
         method: "GET",
-        headers: { Authorization: `Bearer ${token}` },
+        headers: { Authorization: `Bearer ${auth.currentUser.token}` },
       })
         .then((res) => {
           setList(res.data);
         })
-        .catch((err) => {
-          if (err) {
-            alert("Tidak ada data");
-            setList(["Tidak ada data"]);
-            // console.log(err)
-          } else {
-          }
-        });
     }
-  });
+  }, [auth, list]);
+
+  const refreshPage = () => {
+    Axios({
+      url: auth.getHistoryUrl,
+      method: "GET",
+      headers: { Authorization: `Bearer ${auth.currentUser.token}` },
+    })
+      .then((res) => {
+        setList(res.data);
+      })
+      .catch((err) => {
+        if (err) {
+        }
+      });
+  };
 
   return (
     <>
-      <h3>
-        <strong>History</strong>
-      </h3>
       <CRow>
-        {list ? (
+        <CCol className="mb-3">
+          <CButton
+            className="btn-pill btn-dark btn-sm float-right"
+            onClick={refreshPage}
+            style={{
+              backgroundColor: "#0f4c75",
+              border: "none",
+              color: "#bbe1fa",
+            }}
+          >
+            <i className="c-icon cil-sync mse-3" /> Refresh
+          </CButton>
+        </CCol>
+      </CRow>
+      <CRow>
+        {list !== null ? (
           list.map((item, idx) => {
             return (
               <CCol lg={4} key={idx}>
@@ -87,10 +106,10 @@ const LiquidHistory = () => {
             );
           })
         ) : (
-          <CCol>
-            <h3>Belum ada data</h3>
-          </CCol>
-        )}
+            <CCol>
+              <h5>Belum ada data...</h5>
+            </CCol>
+          )}
       </CRow>
     </>
   );

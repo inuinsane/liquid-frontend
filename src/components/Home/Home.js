@@ -3,12 +3,12 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
 import { makeStyles } from "@material-ui/core/styles";
-import Register from "../Register";
-import Login from "../Login";
 import { Typography, Link, Box } from "@material-ui/core";
-import { AuthContext } from "../Context/AuthContext";
 import { Redirect } from "react-router-dom";
 import Axios from "axios";
+import { AuthContext } from "../Context/AuthContext";
+import Login from "./Login";
+import Register from "./Register";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -91,7 +91,7 @@ const Home = () => {
     )
   } else {
     return (
-      <Redirect to="/dashboard" />
+      <Redirect to="/dashboard/details" />
     );
   }
 };

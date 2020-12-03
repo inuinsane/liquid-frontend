@@ -9,12 +9,12 @@ import {
   CNavbar,
   CNavbarBrand,
   CNavbarNav,
+  CNavbarText,
   CNavLink,
   CToggler,
 } from "@coreui/react";
-import { AuthContext } from "./Context/AuthContext";
+import { AuthContext } from "../Context/AuthContext";
 import Axios from "axios";
-import { Link } from "react-router-dom";
 
 const TopNav = () => {
   const [auth, setAuth] = useContext(AuthContext);
@@ -43,6 +43,8 @@ const TopNav = () => {
         id: null,
         name: null,
         username: null,
+        token: null,
+        email: null,
       },
     });
     localStorage.removeItem("token");
@@ -56,23 +58,31 @@ const TopNav = () => {
       </CNavbarBrand>
       <CCollapse show={isOpen} navbar>
         <CNavbarNav>
-          <CNavLink to="/dashboard">
+          <CNavLink to="/dashboard/details">
             <strong>
               <i className="cil-home" /> Home
             </strong>
           </CNavLink>
-          <CNavLink to="/liquid">
+          <CNavLink to="/dashboard/liquid">
             <strong>
               <i className="cil-bolt" /> Liquid
             </strong>
           </CNavLink>
-          <CNavLink to="/create-room">
+          <CNavLink to="/dashboard/create-room">
             <strong>
               <i className="cil-plus" /> Create Room
             </strong>
           </CNavLink>
+          <CNavLink to="/profile">
+            <strong>
+              <i className="cil-user" /> My Profile
+            </strong>
+          </CNavLink>
         </CNavbarNav>
         <CNavbarNav className="ml-auto">
+          <CNavbarText className="mt-2">
+            <p className="text-white">Halo, {auth.currentUser.name} :)</p>
+          </CNavbarText>
           <CDropdown
             inNav
             className="c-header-nav-items mx-2"
@@ -104,16 +114,12 @@ const TopNav = () => {
                 <strong>{auth.currentUser.username || "Username"}</strong>
               </CDropdownItem>
               {/* Profile */}
-              <CDropdownItem>
-                <Link to="/profile" className="text-dark">
-                  <i className="c-icon mfe-2 cil-user" /> Profile
-                </Link>
-              </CDropdownItem>
+              {/*<CDropdownItem to="/profile">
+                <i className="c-icon mfe-2 cil-user" /> Profile
+              </CDropdownItem>*/}
               {/* Logout */}
-              <CDropdownItem>
-                <Link to="#" className="text-dark" onClick={handleLogout}>
-                  <i className="c-icon mfe-2 cil-account-logout" /> Logout
-                </Link>
+              <CDropdownItem onClick={handleLogout}>
+                <i className="c-icon mfe-2 cil-room" /> Logout
               </CDropdownItem>
             </CDropdownMenu>
           </CDropdown>
